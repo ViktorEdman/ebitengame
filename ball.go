@@ -7,16 +7,20 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
+const gravity = 0.98
+
 type ball struct {
-	x, y float64
-	radius float64
+	x, y float32
+	vy, xy float32
+	radius float32
 
 }
 
 func (b *ball) Draw(screen *ebiten.Image) {
-	vector.DrawFilledCircle(screen, float32(b.x), float32(b.y), float32(b.radius), color.White, false)
+	vector.DrawFilledCircle(screen, b.x, b.y, b.radius, color.White, false)
 }
 
 func (b *ball) Update() error {
+	b.y += gravity
 	return nil
 }

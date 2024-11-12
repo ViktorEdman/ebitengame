@@ -14,6 +14,6 @@ func (g *Game) handleInputs() {
 	}
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButton0) {
 		x, y := ebiten.CursorPosition()
-		g.entities = append(g.entities, &ball{float64(x), float64(y), 2})
+		g.entities = append(g.entities, &ball{float32(x), float32(y), 0, 0, 2})
 	}
 } 

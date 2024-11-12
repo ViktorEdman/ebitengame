@@ -20,6 +20,8 @@ type entity interface {
 }
 
 const baseRes = 128
+const screenWidth = baseRes * 4
+const screenHeight = baseRes * 3
 
 func (g *Game) Update() error {
 	g.handleInputs()
@@ -27,18 +29,21 @@ func (g *Game) Update() error {
 		return nil
 	}
 	g.currentFrame++
+	for _, e := range g.entities {
+		e.Update()
+	}
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("Hello, World! Frame %d", g.currentFrame))
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("Hello, World! Frame %6d, %d entities", g.currentFrame, len(g.entities)))
 	for _, e := range g.entities {
 		e.Draw(screen)
 	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 4*baseRes, 3*baseRes
+		return 320, 240
 }
 
 func main() {
