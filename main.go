@@ -19,9 +19,9 @@ type entity interface {
 	Update() error
 }
 
-const baseRes = 128
-const screenWidth = baseRes * 4
-const screenHeight = baseRes * 3
+const SCREEN_WIDTH = 800
+const SCREEN_HEIGHT = 600
+
 
 func (g *Game) Update() error {
 	g.handleInputs()
@@ -29,25 +29,30 @@ func (g *Game) Update() error {
 		return nil
 	}
 	g.currentFrame++
-	for _, e := range g.entities {
-		e.Update()
+	for i := range g.entities {
+		g.entities[i].Update()
 	}
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("Hello, World! Frame %6d, %d entities", g.currentFrame, len(g.entities)))
-	for _, e := range g.entities {
-		e.Draw(screen)
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("Frame %6d, %d entities", g.currentFrame, len(g.entities)))
+	
+	ebitenutil.DebugPrintAt(screen, getMemUsage(), 0, 20)
+	for i := range g.entities {
+		g.entities[i].Draw(screen)
+		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Entity %d: %+v", i, g.entities[i]), 0, 30+(i*12))	
 	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-		return 320, 240
+	screenWidth = SCREEN_WIDTH
+	screenHeight = SCREEN_HEIGHT
+	return
 }
 
 func main() {
-	ebiten.SetWindowSize(640, 480)
+	ebiten.SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 	ebiten.SetWindowTitle("Hello, World!")
 	if err := ebiten.RunGame(&Game{}); err != nil {
 		log.Fatal(err)

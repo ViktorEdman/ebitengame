@@ -12,8 +12,15 @@ func (g *Game) handleInputs() {
 	if g.paused {
 		return
 	}
-	if ebiten.IsMouseButtonPressed(ebiten.MouseButton0) {
+	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
 		x, y := ebiten.CursorPosition()
-		g.entities = append(g.entities, &ball{float32(x), float32(y), 0, 0, 2})
+		g.addBalls(1, x, y)
+	}
+	if inpututil.IsKeyJustReleased(ebiten.KeyR) {
+		g.clearEntities()
 	}
 } 
+
+func (g *Game) clearEntities() {
+	g.entities = []entity{}
+}
