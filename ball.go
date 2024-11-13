@@ -47,11 +47,18 @@ func (b *ball) Bounce(width, height int) {
 	if math.Abs(float64(b.vx)) < 10 && (b.x  > SCREEN_WIDTH || b.x  < 0) {
 		b.vx = 0
 		
+		if b.x - b.radius> SCREEN_WIDTH - b.radius{
+			b.x = SCREEN_WIDTH - b.radius
+		}
+		if b.x + b.radius< 0  + b.radius{
+			b.x = 0 + b.radius
+		}
+		
 	}
 	if (b.x - b.radius )< 0 || (b.x + b.radius )> float32(width)  {
-		b.vx *= -0.6
+		b.vx *= -0.85
 	}
 	if b.y-b.radius < 0 || b.y+b.radius > float32(height) {
-		b.vy *= -0.6
+		b.vy *= -0.85
 	}
 }
