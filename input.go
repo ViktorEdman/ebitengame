@@ -6,7 +6,10 @@ import (
 )
 
 func (g *Game) handleInputs() {
-	if inpututil.IsKeyJustReleased(ebiten.KeySpace) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyD) {
+		g.debugEnabled = !g.debugEnabled
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
 		g.paused = !g.paused
 	}
 	if g.paused {
