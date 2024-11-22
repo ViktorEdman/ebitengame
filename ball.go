@@ -32,9 +32,8 @@ func (b *ball) Update() error {
 }
 
 func (g *Game) addBall(x, y float64) {
-	radius := 20
 
-	g.entities = append(g.entities, &ball{x, y, (rand.Float64() - 0.5) * 30, gravity, float64(radius), g})
+	g.entities = append(g.entities, &ball{x, y, (rand.Float64() - 0.5) * 30, gravity, float64(g.nextBallSize), g})
 }
 
 func (b *ball) ResolveCollisions() {
@@ -58,7 +57,7 @@ func resolveCollision(b1, b2 *ball) {
 		nx, ny := dx/distance, dy/distance
 		relativeVelocity := (b2.vx-b1.vx)*nx + (b2.vy-b1.vy)*ny
 		if relativeVelocity > 0 {
-			impulse := relativeVelocity * 0.9
+			impulse := relativeVelocity * 1.2
 			b1.vx += impulse * nx
 			b1.vy += impulse * ny
 			b2.vx -= impulse * nx

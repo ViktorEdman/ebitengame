@@ -12,7 +12,9 @@ type Game struct {
 	currentFrame int
 	paused       bool
 	debugEnabled bool
+	turboMode    bool
 	entities     []entity
+	nextBallSize int
 }
 
 type entity interface {
@@ -43,12 +45,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%.2f FPS", ebiten.ActualFPS()), 0, 20)
 		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("%.2f TPS", ebiten.ActualTPS()), 0, 30)
 	}
+	if g.turboMode {
+		ebitenutil.DebugPrintAt(screen, "Turbo mode activated", SCREEN_WIDTH-(SCREEN_WIDTH/20), 0)
+	}
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Current ball size %d", g.nextBallSize), SCREEN_WIDTH-(SCREEN_WIDTH/5), 20)
 	for i := range g.entities {
 		g.entities[i].Draw(screen)
-		if g.debugEnabled {
-
-			ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Entity %d: %+v", i, g.entities[i]), 0, 40+(i*12))
-		}
 	}
 }
 
@@ -61,7 +63,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 func main() {
 	ebiten.SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 	ebiten.SetWindowTitle("Hello, World!")
-	if err := ebiten.RunGame(&Game{}); err != nil {
+	if err := ebiten.RunGame(&Game{nextBallSize: 20}); err != nil {
 		log.Fatal(err)
 	}
 }
