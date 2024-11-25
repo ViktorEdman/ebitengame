@@ -36,7 +36,9 @@ func (g *Game) handleInputs() {
 	_, dy := ebiten.Wheel()
 	if g.nextBallSize >= 10 {
 		g.nextBallSize += int(dy / 10)
-
+	}
+	if g.nextBallSize < 10 {
+		g.nextBallSize = 10
 	}
 }
 
